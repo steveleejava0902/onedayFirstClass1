@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 
@@ -46,7 +47,7 @@ public class MainPanel extends JPanel implements Runnable, Common {
 		
 		maps = new Map[2];
         maps[0] = new Map("../map/castle.map", "../event/castle.evt", "castle", this);
-        /*
+        
         maps[1] = new Map("../map/field.map", "../event/field.evt", "field", this);
         mapNo = 0;  // initial map
         
@@ -56,7 +57,7 @@ public class MainPanel extends JPanel implements Runnable, Common {
 		
 		gameLoop = new Thread(this);
 		gameLoop.start();
-		*/
+		
 		
 	}
 
@@ -84,6 +85,9 @@ public class MainPanel extends JPanel implements Runnable, Common {
         
 	}
 
+  
+	
+	
     private void gameRender() {
         if (dbImage == null) {
             // buffer image

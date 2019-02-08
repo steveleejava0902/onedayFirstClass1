@@ -2,8 +2,8 @@ package textRPG;
 
 public class Hero extends CharacterReal implements Character {
 
-	public Hero(String name, int hp, int level, int attack_p) {
-		super(name, hp, level, attack_p);
+	public Hero(String name) {
+		super(name, 50, 1, 3, 15, 9);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -12,8 +12,7 @@ public class Hero extends CharacterReal implements Character {
 		// TODO Auto-generated method stub
 		
 		int hp = real.getHp();
-		hp = hp - this.getAttack_p();
-		
+		hp = hp - this.getAttack_p();		
 		
 	}
 

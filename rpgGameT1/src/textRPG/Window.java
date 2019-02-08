@@ -11,12 +11,20 @@ import javax.swing.border.TitledBorder;
 
 public class Window extends JFrame implements KeyListener {
 	
+	int GAMESTAGE = 0;
+	int GAMESTEP = 0;	
+	int EVENTMODE = 0;
+	
 	JPanel mainPanel, monsterPanel, heroPanel;
-	JLabel monster1, monster2, monster3, monsterking;
-	JLabel mapDisplay;
-	JTextField explainDisplay;
+	static JLabel monster1, monster2, monster3, monsterking;
+	static JLabel mapDisplay;
+	static JLabel explainDisplay;
+	JTextField inputDisplay;
 	
 	MapWindow mapWin = new MapWindow();
+	
+	Hero hero;
+	Monster mons1, mons2, mons3, monsKING;
 	
 	public Window() {
 		setTitle("textRPG");
@@ -77,22 +85,32 @@ public class Window extends JFrame implements KeyListener {
 		
 		mapDisplay = new JLabel();
 		mapDisplay.setBorder(new TitledBorder("map"));
-		mapDisplay.setText("<html>***H*******************<br>*********M*************</html>");
+		//mapDisplay.setText("<html>***H*******************<br>*********M*************</html>");
 		mapDisplay.setSize(200, 200);
-		mapDisplay.setLocation(0, 10);
+		mapDisplay.setLocation(0, 30);
 		
 		heroPanel.add(mapDisplay);
 		
 		
-		explainDisplay = new JTextField();
+		explainDisplay = new JLabel();
 		explainDisplay.setBorder(new TitledBorder("explainDisplay"));
 		explainDisplay.setText("game start");
 		explainDisplay.setSize(200, 200);
-		explainDisplay.setLocation(201, 10);
-		explainDisplay.setEditable(false);
-		explainDisplay.addKeyListener(this);
+		explainDisplay.setLocation(201, 30);
+		//explainDisplay.addKeyListener(this);
 		
 		heroPanel.add(explainDisplay);
+		
+		inputDisplay = new JTextField();
+		inputDisplay.setBorder(new TitledBorder("inputDisplay"));
+		
+		inputDisplay.setSize(200, 50);
+		inputDisplay.setLocation(0, 230);
+		inputDisplay.addKeyListener(this);
+		
+		heroPanel.add(inputDisplay);
+		
+		
 		
 
 		mainPanel.add(heroPanel);
@@ -100,6 +118,10 @@ public class Window extends JFrame implements KeyListener {
 		getContentPane().add(mainPanel, null);
 		
 		setVisible(true);
+		
+		explainDisplay.setText(Sentence.EX_1);
+		
+		
 	}
 
 	@Override
@@ -111,7 +133,11 @@ public class Window extends JFrame implements KeyListener {
 		
 		System.out.println("key ::" + key + " keyNum ::" + keyNum + " keyN ::" + keyN);
 		
-		mapDisplay.setText(mapWin.setMap());
+		//mapDisplay.setText(mapWin.setMap());
+		
+		gameEvent(keyN);
+		
+
 		
 	}
 
@@ -124,6 +150,64 @@ public class Window extends JFrame implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void gameEvent(int keyN) {
+		System.out.println("GAMESTAGE::" + GAMESTAGE + "GAMESTEP::" + GAMESTEP);
+
+		if(GAMESTAGE == 0 && GAMESTEP == 0 && keyN == 10) {
+			System.out.println(2);
+
+			hero = new Hero(inputDisplay.getText());
+			mons1 = new Monster("monster1", 50, 1, 3, 15, 2);
+			mapDisplay.setText(mapWin.setIni());
+			GAMESTEP = 1;
+			GAMESTAGE = 1;
+		}else if(GAMESTAGE == 1 && keyN == 37) {
+			System.out.println("hero.getX()::" + hero.getX() + "hero.getY()::" + hero.getY());
+			if(hero.getX() != 1) {				
+				hero.setX(hero.getX() - 1);
+				mons1.autoMoving();
+				System.out.println("hero.getX()::" + hero.getX() + "hero.getY()::" + hero.getY());
+				mapWin.mapEvent(hero,mons1,EVENTMODE);
+			}else {
+				
+			}
+			
+		}else if(GAMESTAGE == 1 && keyN == 38) {
+			if(hero.getY() != 1) {				
+				hero.setY(hero.getY() - 1);
+				mons1.autoMoving();
+				mapWin.mapEvent(hero,mons1,EVENTMODE);
+			}else {
+				
+			}
+			
+		}else if(GAMESTAGE == 1 && keyN == 39) {
+			if(hero.getX() != 30) {				
+				hero.setX(hero.getX() + 1);
+				mons1.autoMoving();
+				mapWin.mapEvent(hero,mons1,EVENTMODE);
+			}else {
+				
+			}
+			
+		}else if(GAMESTAGE == 1 && keyN == 40) {
+			if(hero.getY() != 10) {				
+				hero.setY(hero.getY() + 1);
+				mons1.autoMoving();
+				mapWin.mapEvent(hero,mons1,EVENTMODE);
+			}else {
+				
+			}
+			
+		}
+		
+	}
+	
+	public void mapMoving(int keyN) {
+		
 		
 	}
 	
