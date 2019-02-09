@@ -4,6 +4,7 @@ public class MapWindow {
 	
 	String mapXY = "<html>";
 	String monsterText ; 
+	String heroText ;
 	String explainText ;
 	
 	public String setIni() {
@@ -71,27 +72,101 @@ public class MapWindow {
 		
 		mapXY = mapXY + "</html>";
 		
-		monsterText = "<html>hp:" + mons.getHp()
-				+ "<br> </html>";
 		
-		explainText = "<html>hp:" + hero.getHp()
-		+ "<br> </html>";
 		
-		Window.monster1.setText(monsterText);
-		Window.explainDisplay.setText(explainText);
+		
 		
 		Window.mapDisplay.setText(mapXY);
 		
 		
 	}
 	
+	public void setHP(Hero hero, Monster mons) {
+		
+		monsterText = "<html>hp:" + mons.getHp()
+		+ "<br> </html>";
+
+		heroText = "<html>hp:" + hero.getHp()
+		+ "<br> </html>";
+		
+		Window.monster1.setText(monsterText);
+		Window.heroHP.setText(heroText);
+		
+	}
 	
-	public void battle(CharacterReal hero, CharacterReal mon, int mode) {
+	
+	public void battle(Hero hero, Monster mon, int mode) {
+		
+		System.out.println("battle");
 		
 		if(mode == 0) {
 			
+			int dis = distance(hero, mon);
+			
+			if(dis <= mon.getAttackDistance()) {
+				mon.attack(hero);
+				System.out.println("attack");
+			}
+			
+			
+		}else if(mode == 1) {
+			int dis = distance(hero, mon);
+			
+			if(dis <= mon.getAttackDistance()) {
+				mon.attack(hero);
+				System.out.println("attack");
+			}
+			
+			
+			if(dis <= hero.getA_distance()) {
+				hero.attack(mon);
+				System.out.println("attackA");
+				Window.explainDisplay.setText("원거리 공격이 성공하였습니다.");
+			}else {
+				Window.explainDisplay.setText("원거리 공격이 실패하였습니다.");
+			}
+			
+		}else if(mode == 2) {
+			int dis = distance(hero, mon);
+			
+			if(dis <= mon.getAttackDistance()) {
+				mon.attack(hero);
+				System.out.println("attack");
+			}
+			
+			
+			if(dis <= hero.getS_distance()) {
+				hero.attack2(mon);
+				System.out.println("attackS");
+				Window.explainDisplay.setText("근거리 공격이 성공하였습니다.");
+			}else {
+				Window.explainDisplay.setText("근거리 공격이 실패하였습니다.");
+			}
 			
 		}
+		
+		setHP(hero, mon) ;
+		
+	}
+	
+	public void checkMonHP() {
+		
+	}
+	
+	
+	public int distance(Hero hero, Monster mon) {
+		
+		int hx = hero.getX();
+		int hy = hero.getY();
+		int mx = mon.getX();
+		int my = mon.getY();
+		
+		int dx = Math.abs(hx - mx);
+		int dy = Math.abs(hy - my);
+		
+		return dx + dy;
+		
+		
 		
 	}
 	
